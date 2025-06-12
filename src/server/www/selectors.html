@@ -1,200 +1,194 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>chkfilt - CSS selectors</title>
-  <link rel="stylesheet" href="./style.css">
-</head>
-<body>
-  <h1>CSS selectors</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <title>chkfilt - CSS selectors</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <h1>CSS selectors</h1>
 
-  <h2>Tests</h2>
-  <table>
-    <tr>
-      <th>filter</th>
-      <th>+immediate</th>
-      <th>+50ms</th>
-      <th>+100ms</th>
-      <th>+200ms</th>
-      <th></th>
-    </tr>
+    <h2>Tests</h2>
+    <table>
+      <tr>
+        <th>filter</th>
+        <th>+immediate</th>
+        <th>+50ms</th>
+        <th>+100ms</th>
+        <th>+200ms</th>
+        <th></th>
+      </tr>
 
-    <tr>
-      <td><code>###generic-target</code></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td id="generic-selector-id">
-        <div id="generic-target"></div>
-      </td>
-    </tr>
-    <tr>
-      <td><code>##.generic-target</code></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td id="generic-selector-class">
-        <div class="generic-target"></div>
-      </td>
-    </tr>
-    <tr>
-      <td><code>##[generic-target]</code></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td id="generic-selector-attribute">
-        <div generic-target></div>
-      </td>
-    </tr>
-    <tr>
-      <td><code>##.generic-outer-target:has(span)</code></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td id="generic-selector-has">
-        <div class="generic-outer-target"><span></span></div>
-      </td>
-    </tr>
-    <tr>
-      <td><code>##[generic-lazy-target="50ms"]</code></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td id="generic-selector-lazy">
-        <div generic-lazy-target></div>
-      </td>
-    </tr>
+      <tr>
+        <td><code>###generic-target</code></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td id="generic-selector-id">
+          <div id="generic-target"></div>
+        </td>
+      </tr>
+      <tr>
+        <td><code>##.generic-target</code></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td id="generic-selector-class">
+          <div class="generic-target"></div>
+        </td>
+      </tr>
+      <tr>
+        <td><code>##[generic-target]</code></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td id="generic-selector-attribute">
+          <div generic-target></div>
+        </td>
+      </tr>
+      <tr>
+        <td><code>##.generic-outer-target:has(span)</code></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td id="generic-selector-has">
+          <div class="generic-outer-target"><span></span></div>
+        </td>
+      </tr>
+      <tr>
+        <td><code>##[generic-lazy-target="50ms"]</code></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td id="generic-selector-lazy">
+          <div generic-lazy-target></div>
+        </td>
+      </tr>
 
-    <tr>
-      <td><code>localhost###target</code></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td id="selector-id">
-        <div id="target"></div>
-      </td>
-    </tr>
-    <tr>
-      <td><code>localhost##.target</code></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td id="selector-class">
-        <div class="target"></div>
-      </td>
-    </tr>
-    <tr>
-      <td><code>localhost##[target]</code></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td id="selector-attribute">
-        <div target></div>
-      </td>
-    </tr>
-    <tr>
-      <td><code>localhost##.outer-target:has(span)</code></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td id="selector-has">
-        <div class="outer-target"><span></span></div>
-      </td>
-    </tr>
-    <tr>
-      <td><code>localhost##[lazy-target="50ms"]</code></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td id="selector-lazy">
-        <div lazy-target></div>
-      </td>
-    </tr>
-    <tr>
-      <td><code>localhost##[adjunct-target="100ms"]</code></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td><section fail></section></td>
-      <td id="selector-adjunct"></td>
-    </tr>
-  </table>
+      <tr>
+        <td><code>localhost###target</code></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td id="selector-id">
+          <div id="target"></div>
+        </td>
+      </tr>
+      <tr>
+        <td><code>localhost##.target</code></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td id="selector-class">
+          <div class="target"></div>
+        </td>
+      </tr>
+      <tr>
+        <td><code>localhost##[target]</code></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td id="selector-attribute">
+          <div target></div>
+        </td>
+      </tr>
+      <tr>
+        <td><code>localhost##.outer-target:has(span)</code></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td id="selector-has">
+          <div class="outer-target"><span></span></div>
+        </td>
+      </tr>
+      <tr>
+        <td><code>localhost##[lazy-target="50ms"]</code></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td id="selector-lazy">
+          <div lazy-target></div>
+        </td>
+      </tr>
+      <tr>
+        <td><code>localhost##[adjunct-target="100ms"]</code></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td id="selector-adjunct"></td>
+      </tr>
+    </table>
 
-  <script>
-    function test(
-      { resultSelector } = {
-        resultSelector: 'td:nth-child(2)>section',
-      }
-    ) {
-      const report = {};
-      const filterElements = document.querySelectorAll('code');
-      for (const filterElement of filterElements) {
-        const tableRowElement = filterElement.parentElement.parentElement;
-        const targetElement = tableRowElement
-          .querySelector('td[id]>div')
-        if (!(targetElement instanceof Element)) {
-          report[filterElement.textContent] = false;
-          continue;
+    <script>
+      function test(
+        { resultSelector } = {
+          resultSelector: "td:nth-child(2)>section",
+        },
+      ) {
+        const report = {};
+        const filterElements = document.querySelectorAll("code");
+        for (const filterElement of filterElements) {
+          const tableRowElement = filterElement.parentElement.parentElement;
+          const targetElement = tableRowElement.querySelector("td[id]>div");
+          if (!(targetElement instanceof Element)) {
+            report[filterElement.textContent] = false;
+            continue;
+          }
+          const targetRect = targetElement.getBoundingClientRect();
+          const isPass = targetRect.height === 0 && targetRect.width === 0;
+          report[filterElement.textContent] = isPass;
+          if (isPass) {
+            const resultElement = tableRowElement.querySelector(resultSelector);
+            resultElement.removeAttribute("fail");
+            resultElement.setAttribute("pass", "");
+          }
         }
-        const targetRect = targetElement.getBoundingClientRect();
-        const isPass = targetRect.height === 0 && targetRect.width === 0;
-        report[filterElement.textContent] = isPass;
-        if (isPass) {
-          const resultElement = tableRowElement.querySelector(resultSelector);
-          resultElement.removeAttribute('fail');
-          resultElement.setAttribute('pass', '');
-        }
+        return report;
       }
-      return report;
-    }
 
-    document.addEventListener(
-      'readystatechange',
-      function () {
-        test();
-        setTimeout(function () {
-          test({ resultSelector: 'td:nth-child(3)>section' });
-        }, 50);
-        setTimeout(function () {
-          test({ resultSelector: 'td:nth-child(4)>section' });
-        }, 100);
-        setTimeout(function () {
-          test({ resultSelector: 'td:nth-child(5)>section' });
-        }, 200);
+      document.addEventListener(
+        "readystatechange",
+        function () {
+          test();
+          setTimeout(function () {
+            test({ resultSelector: "td:nth-child(3)>section" });
+          }, 50);
+          setTimeout(function () {
+            test({ resultSelector: "td:nth-child(4)>section" });
+          }, 100);
+          setTimeout(function () {
+            test({ resultSelector: "td:nth-child(5)>section" });
+          }, 200);
 
-        setTimeout(function () {
-          document.querySelector('[lazy-target]').setAttribute('lazy-target', '50ms');
-          document.querySelector('[generic-lazy-target]').setAttribute('generic-lazy-target', '50ms');
-        }, 50);
+          setTimeout(function () {
+            document
+              .querySelector("[lazy-target]")
+              .setAttribute("lazy-target", "50ms");
+            document
+              .querySelector("[generic-lazy-target]")
+              .setAttribute("generic-lazy-target", "50ms");
+          }, 50);
 
-        setTimeout(function () {
-          const child = document.createElement('div');
-          child.setAttribute('adjunct-target', '100ms');
-          document.querySelector('#selector-adjunct').appendChild(child);
-        }, 100);
-      },
-      { once: true },
-    );
-
-    document.addEventListener('DOMContentLoaded', function () {
-      if (document.location.hostname === "localhost") {
-        return;
-      }
-      for (const element of document.querySelectorAll('code')) {
-        element.textContent = element.textContent.replace('localhost', document.location.hostname);
-      }
-    }, { once: true });
-  </script>
-</body>
-
+          setTimeout(function () {
+            const child = document.createElement("div");
+            child.setAttribute("adjunct-target", "100ms");
+            document.querySelector("#selector-adjunct").appendChild(child);
+          }, 100);
+        },
+        { once: true },
+      );
+    </script>
+    <script type="module" src="./shared.mjs" async></script>
+  </body>
 </html>
