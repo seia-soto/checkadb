@@ -1,0 +1,28 @@
+td>section[pass] {
+  display: inline-block;
+  height: 16px;
+  width: 50px;
+  color: darkcyan;
+}
+
+td>section[fail] {
+  display: inline-block;
+  height: 16px;
+  width: 50px;
+  color: red;
+  font-weight: 700;
+}
+
+td>section[pass]::after {
+  content: "pass";
+}
+
+td>section[fail]::after {
+  content: "fail";
+}
+
+td>div {
+  width: 50px;
+  height: 15px;
+  background-color: darkcyan;
+}
