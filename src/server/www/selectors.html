@@ -19,114 +19,114 @@
         <th></th>
       </tr>
 
-      <tr>
+      <tr id="generic-selector-id">
         <td><code>###generic-target</code></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
-        <td id="generic-selector-id">
+        <td>
           <div id="generic-target"></div>
         </td>
       </tr>
-      <tr>
+      <tr id="generic-selector-class">
         <td><code>##.generic-target</code></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
-        <td id="generic-selector-class">
+        <td>
           <div class="generic-target"></div>
         </td>
       </tr>
-      <tr>
+      <tr id="generic-selector-attribute">
         <td><code>##[generic-target]</code></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
-        <td id="generic-selector-attribute">
+        <td>
           <div generic-target></div>
         </td>
       </tr>
-      <tr>
+      <tr id="generic-selector-has">
         <td><code>##.generic-outer-target:has(span)</code></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
-        <td id="generic-selector-has">
+        <td>
           <div class="generic-outer-target"><span></span></div>
         </td>
       </tr>
-      <tr>
+      <tr id="generic-selector-lazy">
         <td><code>##[generic-lazy-target="50ms"]</code></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
-        <td id="generic-selector-lazy">
+        <td>
           <div generic-lazy-target></div>
         </td>
       </tr>
 
-      <tr>
+      <tr id="selector-id">
         <td><code>localhost###target</code></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
-        <td id="selector-id">
+        <td>
           <div id="target"></div>
         </td>
       </tr>
-      <tr>
+      <tr id="selector-class">
         <td><code>localhost##.target</code></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
-        <td id="selector-class">
+        <td>
           <div class="target"></div>
         </td>
       </tr>
-      <tr>
+      <tr id="selector-attribute">
         <td><code>localhost##[target]</code></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
-        <td id="selector-attribute">
+        <td>
           <div target></div>
         </td>
       </tr>
-      <tr>
+      <tr id="selector-has">
         <td><code>localhost##.outer-target:has(span)</code></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
-        <td id="selector-has">
+        <td>
           <div class="outer-target"><span></span></div>
         </td>
       </tr>
-      <tr>
+      <tr id="selector-lazy">
         <td><code>localhost##[lazy-target="50ms"]</code></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
-        <td id="selector-lazy">
+        <td>
           <div lazy-target></div>
         </td>
       </tr>
-      <tr>
+      <tr id="selector-adjunct">
         <td><code>localhost##[adjunct-target="100ms"]</code></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
-        <td id="selector-adjunct"></td>
+        <td></td>
       </tr>
     </table>
 
@@ -140,7 +140,7 @@
         const filterElements = document.querySelectorAll("code");
         for (const filterElement of filterElements) {
           const tableRowElement = filterElement.parentElement.parentElement;
-          const targetElement = tableRowElement.querySelector("td[id]>div");
+          const targetElement = tableRowElement.querySelector("td>div");
           if (!(targetElement instanceof Element)) {
             report[filterElement.textContent] = false;
             continue;
@@ -183,7 +183,9 @@
           setTimeout(function () {
             const child = document.createElement("div");
             child.setAttribute("adjunct-target", "100ms");
-            document.querySelector("#selector-adjunct").appendChild(child);
+            document
+              .querySelector("#selector-adjunct>td:empty")
+              .appendChild(child);
           }, 100);
         },
         { once: true },
