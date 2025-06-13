@@ -2,7 +2,7 @@
   "name": "chkfilt",
   "version": "1.0.0",
   "description": "Half-automated ad-blocking capability end-to-end testing framework.",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "type": "module",
   "exports": {
     "./package.json": "./package.json",
