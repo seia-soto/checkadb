@@ -4,27 +4,22 @@
 export function withDocumentAvailability(callback) {
   if (document.readyState !== "loading") {
     void callback();
+  } else {
+    document.addEventListener(
+      "readystatechange",
+      function () {
+        void callback();
+      },
+      { once: true },
+    );
   }
-  document.addEventListener(
-    "readystatechange",
-    function () {
-      void callback();
-    },
-    { once: true },
-  );
 }
 
 export function reflectDisplayedHostnames() {
   withDocumentAvailability(function () {
-    if (document.location.hostname === "localhost") {
-      return;
-    }
     for (const element of document.querySelectorAll("code")) {
-      if (!element.textContent.startsWith("localhost")) {
-        continue;
-      }
       element.textContent = element.textContent.replace(
-        "localhost",
+        "example.com",
         document.location.hostname,
       );
     }
@@ -49,7 +44,9 @@ export function collectTestResults() {
   const report = {};
   let i = 0;
   for (const rowElement of tableElement.querySelectorAll("tr:not(:has(th))")) {
-    const key = rowElement.querySelector("td:nth-child(1)").textContent;
+    const key = rowElement
+      .querySelector("td:nth-child(1)")
+      .textContent.replace(document.location.hostname, "example.com");
     /**
      * @type {Record<string, string>}
      */

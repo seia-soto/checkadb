@@ -4,7 +4,29 @@
   "description": "Half-automated ad-blocking capability end-to-end testing framework.",
   "main": "index.js",
   "type": "module",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    },
+    "./scenario": {
+      "import": {
+        "types": "./dist/scenario/index.d.ts",
+        "default": "./dist/scenario/index.js"
+      }
+    },
+    "./server": {
+      "import": {
+        "types": "./dist/server/index.d.ts",
+        "default": "./dist/server/index.js"
+      }
+    }
+  },
   "scripts": {
+    "build": "tsc -p ./tsconfig.build.json",
     "www": "node --import=tsimp/import ./scripts/www.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint",

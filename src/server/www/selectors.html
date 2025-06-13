@@ -69,9 +69,17 @@
           <div generic-lazy-target></div>
         </td>
       </tr>
+      <tr id="generic-selector-adjunct">
+        <td><code>##[generic-adjunct-target="100ms"]</code></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td></td>
+      </tr>
 
       <tr id="selector-id">
-        <td><code>localhost###target</code></td>
+        <td><code>example.com###target</code></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
@@ -81,7 +89,7 @@
         </td>
       </tr>
       <tr id="selector-class">
-        <td><code>localhost##.target</code></td>
+        <td><code>example.com##.target</code></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
@@ -91,7 +99,7 @@
         </td>
       </tr>
       <tr id="selector-attribute">
-        <td><code>localhost##[target]</code></td>
+        <td><code>example.com##[target]</code></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
@@ -101,7 +109,7 @@
         </td>
       </tr>
       <tr id="selector-has">
-        <td><code>localhost##.outer-target:has(span)</code></td>
+        <td><code>example.com##.outer-target:has(span)</code></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
@@ -111,7 +119,7 @@
         </td>
       </tr>
       <tr id="selector-lazy">
-        <td><code>localhost##[lazy-target="50ms"]</code></td>
+        <td><code>example.com##[lazy-target="50ms"]</code></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
@@ -121,7 +129,7 @@
         </td>
       </tr>
       <tr id="selector-adjunct">
-        <td><code>localhost##[adjunct-target="100ms"]</code></td>
+        <td><code>example.com##[adjunct-target="100ms"]</code></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
@@ -213,11 +221,16 @@
           }, 50);
 
           setTimeout(function () {
-            const child = document.createElement("div");
-            child.setAttribute("adjunct-target", "100ms");
+            const child1 = document.createElement("div");
+            child1.setAttribute("adjunct-target", "100ms");
             document
               .querySelector("#selector-adjunct>td:empty")
-              .appendChild(child);
+              .appendChild(child1);
+            const child2 = document.createElement("div");
+            child2.setAttribute("generic-adjunct-target", "100ms");
+            document
+              .querySelector("#generic-selector-adjunct>td:empty")
+              .appendChild(child2);
           }, 100);
         },
         { once: true },

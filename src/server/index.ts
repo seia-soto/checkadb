@@ -1,10 +1,9 @@
-import * as http from "node:http";
 import * as fs from "node:fs/promises";
-import { fileURLToPath } from "node:url";
+import * as http from "node:http";
 import * as path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const importUrl = fileURLToPath(import.meta.url);
-const wwwRoot = path.join(importUrl, "..", "www");
+const wwwroot = path.join(fileURLToPath(import.meta.url), "..", "www");
 
 export function createTestingServer() {
   const server = http.createServer(async function (req, res) {
@@ -12,7 +11,7 @@ export function createTestingServer() {
       req.url = "/index.html";
     }
     const errorOrFile = await fs
-      .readFile(path.join(wwwRoot, req.url))
+      .readFile(path.join(wwwroot, req.url))
       .catch(function (error: NodeJS.ErrnoException) {
         return error;
       });
