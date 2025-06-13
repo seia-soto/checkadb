@@ -18,6 +18,7 @@
         async function publish() {
           const utils = await import("./utils.mjs");
           window.__chkfilt__results = utils.collectTestResults();
+          utils.printResults(window.__chkfilt__results);
         }
 
         function process() {

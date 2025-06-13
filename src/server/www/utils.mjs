@@ -67,3 +67,18 @@ export function collectTestResults() {
 
   return report;
 }
+
+/**
+ * @param {Record<string, Record<string, string>>} results
+ */
+export function printResults(results) {
+  console.log(`[filters]
+${Object.keys(results).join("\n")}
+
+[results]
+${Object.entries(results)
+  .map(function ([filter, result]) {
+    return `${filter} ${JSON.stringify(result)}`;
+  })
+  .join("\n")}`);
+}
