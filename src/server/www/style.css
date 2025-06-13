@@ -1,3 +1,9 @@
+body {
+  font-family:
+    Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans", Arial,
+    sans-serif;
+}
+
 td > section[pass] {
   display: inline-block;
   height: 16px;
@@ -10,7 +16,6 @@ td > section[fail] {
   height: 16px;
   width: 50px;
   color: red;
-  font-weight: 700;
 }
 
 td > section[pass]::after {

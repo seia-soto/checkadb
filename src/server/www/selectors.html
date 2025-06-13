@@ -131,42 +131,67 @@
     </table>
 
     <script>
-      function test(
-        { resultSelector } = {
-          resultSelector: "td:nth-child(2)>section",
-        },
-      ) {
-        const report = {};
-        const filterElements = document.querySelectorAll("code");
-        for (const filterElement of filterElements) {
-          const tableRowElement = filterElement.parentElement.parentElement;
-          const targetElement = tableRowElement.querySelector("td>div");
-          if (!(targetElement instanceof Element)) {
-            report[filterElement.textContent] = false;
-            continue;
+      function createReportHandler() {
+        let expected = 0;
+        let processed = 0;
+
+        async function publish() {
+          const utils = await import("./utils.mjs");
+          window.__chkfilt__results = utils.collectTestResults();
+        }
+
+        function scheduleTest() {
+          expected++;
+        }
+
+        function test(resultSelector) {
+          const filterElements = document.querySelectorAll("code");
+          for (const filterElement of filterElements) {
+            const tableRowElement = filterElement.parentElement.parentElement;
+            const targetElement = tableRowElement.querySelector("td>div");
+            if (!(targetElement instanceof Element)) {
+              continue;
+            }
+            const targetRect = targetElement.getBoundingClientRect();
+            const isPass = targetRect.height === 0 && targetRect.width === 0;
+            if (isPass) {
+              const resultElement =
+                tableRowElement.querySelector(resultSelector);
+              resultElement.removeAttribute("fail");
+              resultElement.setAttribute("pass", "");
+            }
           }
-          const targetRect = targetElement.getBoundingClientRect();
-          const isPass = targetRect.height === 0 && targetRect.width === 0;
-          report[filterElement.textContent] = isPass;
-          if (isPass) {
-            const resultElement = tableRowElement.querySelector(resultSelector);
-            resultElement.removeAttribute("fail");
-            resultElement.setAttribute("pass", "");
+
+          if (expected === ++processed) {
+            void publish();
           }
         }
-        return report;
+
+        return {
+          scheduleTest,
+          test,
+        };
       }
+
+      const { scheduleTest, test } = createReportHandler();
 
       document.addEventListener(
         "readystatechange",
         function () {
-          test();
+          scheduleTest();
+          test("td:nth-child(2)>section");
+
+          scheduleTest();
           setTimeout(function () {
-            test({ resultSelector: "td:nth-child(3)>section" });
+            test("td:nth-child(3)>section");
           }, 50);
+
+          scheduleTest();
           setTimeout(function () {
             test({ resultSelector: "td:nth-child(4)>section" });
           }, 100);
+
+          scheduleTest();
           setTimeout(function () {
             test({ resultSelector: "td:nth-child(5)>section" });
           }, 200);

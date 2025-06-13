@@ -30,3 +30,40 @@ export function reflectDisplayedHostnames() {
     }
   });
 }
+
+export function collectTestResults() {
+  const tableElement = document.querySelector("table");
+  /**
+   * @type {string[]}
+   */
+  const headers = [];
+  for (const header of tableElement.querySelectorAll("tr>th")) {
+    if (header.textContent) {
+      headers.push(header.textContent.toLowerCase());
+    }
+  }
+
+  /**
+   * @type {Record<string, Record<string, string>>}
+   */
+  const report = {};
+  let i = 0;
+  for (const rowElement of tableElement.querySelectorAll("tr:not(:has(th))")) {
+    const key = rowElement.querySelector("td:nth-child(1)").textContent;
+    /**
+     * @type {Record<string, string>}
+     */
+    const map = {};
+    for (const resultElement of rowElement.querySelectorAll(
+      "td:not(:nth-child(1))>section",
+    )) {
+      if (headers[++i]) {
+        map[headers[i]] = resultElement.hasAttribute("pass");
+      }
+    }
+    report[key] = map;
+    i = 0;
+  }
+
+  return report;
+}
