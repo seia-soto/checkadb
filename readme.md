@@ -45,7 +45,7 @@ server.listen(PORT, "127.0.0.1", async function () {
     const actuals = await executeInPage(
       `return JSON.stringify(window.__chkfilt__results)`,
     );
-    expect(actuals).toBe(scenario.expects);
+    expect(JSON.parse(actuals)).toBe(scenario.expects);
   }
 });
 ```
