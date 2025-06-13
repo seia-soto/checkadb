@@ -40,18 +40,26 @@
           }
         }
 
-        return function handleReport(resultSelector, results) {
+        function scheduleTest() {
           expected++;
+        }
+
+        function handleReport(resultSelector, results) {
           if (
             reports.push({ resultSelector, results }) &&
             document.readyState !== "loading"
           ) {
             process();
           }
+        }
+
+        return {
+          scheduleTest,
+          handleReport,
         };
       }
 
-      const handleReport = createReportHandler();
+      const { scheduleTest, handleReport } = createReportHandler();
 
       /**
        * @type {function test(resultSelector: string, callback: (report: Record<string, boolean>): void): void}
@@ -150,6 +158,7 @@
       }
 
       // head
+      scheduleTest();
       test("td:nth-child(2)>section", handleReport);
     </script>
   </head>
@@ -233,9 +242,11 @@
 
     <script>
       // immediate
+      scheduleTest();
       test("td:nth-child(3)>section", handleReport);
 
       // readystatechange
+      scheduleTest();
       document.addEventListener(
         "readystatechange",
         function () {
@@ -245,6 +256,7 @@
       );
 
       // DOMContentLoaded
+      scheduleTest();
       document.addEventListener(
         "DOMContentLoaded",
         function () {
