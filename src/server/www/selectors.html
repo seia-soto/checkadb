@@ -131,9 +131,9 @@
     </table>
 
     <script>
-      function createReportHandler() {
+      function createScheduler() {
         let expected = 0;
-        let processed = 0;
+        let reported = 0;
 
         async function publish() {
           const utils = await import("./utils.mjs");
@@ -141,61 +141,67 @@
           utils.printResults(window.__chkfilt__results);
         }
 
-        function scheduleTest() {
-          expected++;
-        }
-
-        function test(resultSelector) {
-          const filterElements = document.querySelectorAll("code");
-          for (const filterElement of filterElements) {
-            const tableRowElement = filterElement.parentElement.parentElement;
-            const targetElement = tableRowElement.querySelector("td>div");
-            if (!(targetElement instanceof Element)) {
-              continue;
-            }
-            const targetRect = targetElement.getBoundingClientRect();
-            const isPass = targetRect.height === 0 && targetRect.width === 0;
-            if (isPass) {
-              const resultElement =
-                tableRowElement.querySelector(resultSelector);
-              resultElement.removeAttribute("fail");
-              resultElement.setAttribute("pass", "");
-            }
-          }
-
-          if (expected === ++processed) {
+        function done() {
+          if (expected === ++reported) {
             void publish();
           }
         }
 
-        return {
-          scheduleTest,
-          test,
-        };
+        function schedule(callback) {
+          expected++;
+          setTimeout(function () {
+            void callback(done);
+          }, 0);
+        }
+
+        return schedule;
       }
 
-      const { scheduleTest, test } = createReportHandler();
+      function testAndReport(resultSelector) {
+        const filterElements = document.querySelectorAll("code");
+        for (const filterElement of filterElements) {
+          const tableRowElement = filterElement.parentElement.parentElement;
+          const targetElement = tableRowElement.querySelector("td>div");
+          if (!(targetElement instanceof Element)) {
+            continue;
+          }
+          const targetRect = targetElement.getBoundingClientRect();
+          const isPass = targetRect.height === 0 && targetRect.width === 0;
+          if (isPass) {
+            const resultElement = tableRowElement.querySelector(resultSelector);
+            resultElement.removeAttribute("fail");
+            resultElement.setAttribute("pass", "");
+          }
+        }
+      }
+
+      const schedule = createScheduler();
 
       document.addEventListener(
         "readystatechange",
         function () {
-          scheduleTest();
-          test("td:nth-child(2)>section");
-
-          scheduleTest();
-          setTimeout(function () {
-            test("td:nth-child(3)>section");
-          }, 50);
-
-          scheduleTest();
-          setTimeout(function () {
-            test("td:nth-child(4)>section");
-          }, 100);
-
-          scheduleTest();
-          setTimeout(function () {
-            test("td:nth-child(5)>section");
-          }, 200);
+          schedule(function (done) {
+            testAndReport("td:nth-child(2)>section");
+            done();
+          });
+          schedule(function (done) {
+            setTimeout(function () {
+              testAndReport("td:nth-child(3)>section");
+              done();
+            }, 50);
+          });
+          schedule(function (done) {
+            setTimeout(function () {
+              testAndReport("td:nth-child(4)>section");
+              done();
+            }, 100);
+          });
+          schedule(function (done) {
+            setTimeout(function () {
+              testAndReport("td:nth-child(5)>section");
+              done();
+            }, 200);
+          });
 
           setTimeout(function () {
             document

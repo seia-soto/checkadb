@@ -8,7 +8,7 @@
     <script>
       function createReportHandler() {
         let expected = 0;
-        let processed = 0;
+        let reported = 0;
 
         /**
          * @type {Array<{ resultSelector: string; results: Record<string, boolean>; }>}
@@ -21,9 +21,9 @@
           utils.printResults(window.__chkfilt__results);
         }
 
-        function process() {
-          while (reports.length > processed) {
-            const { resultSelector, results } = reports[processed++];
+        function report() {
+          while (reports.length > reported) {
+            const { resultSelector, results } = reports[reported++];
             for (const [key, isPass] of Object.entries(results)) {
               if (isPass) {
                 const element = document
@@ -35,31 +35,30 @@
             }
           }
 
-          if (expected === processed) {
+          if (expected === reported) {
             void publish();
           }
         }
 
-        function scheduleTest() {
-          expected++;
-        }
-
-        function handleReport(resultSelector, results) {
+        function done(resultSelector, results) {
           if (
             reports.push({ resultSelector, results }) &&
             document.readyState !== "loading"
           ) {
-            process();
+            report();
           }
         }
 
-        return {
-          scheduleTest,
-          handleReport,
-        };
+        function schedule(callback, isImmediate) {
+          expected++;
+          // The testing process is already not synchronous and not to distrub event listeners
+          void callback(done);
+        }
+
+        return schedule;
       }
 
-      const { scheduleTest, handleReport } = createReportHandler();
+      const schedule = createReportHandler();
 
       /**
        * @type {function test(resultSelector: string, callback: (report: Record<string, boolean>): void): void}
@@ -158,8 +157,9 @@
       }
 
       // head
-      scheduleTest();
-      test("td:nth-child(2)>section", handleReport);
+      schedule(function (done) {
+        test("td:nth-child(2)>section", done);
+      });
     </script>
   </head>
 
@@ -242,28 +242,31 @@
 
     <script>
       // immediate
-      scheduleTest();
-      test("td:nth-child(3)>section", handleReport);
+      schedule(function (done) {
+        test("td:nth-child(3)>section", done);
+      });
 
       // readystatechange
-      scheduleTest();
-      document.addEventListener(
-        "readystatechange",
-        function () {
-          test("td:nth-child(4)>section", handleReport);
-        },
-        { once: true },
-      );
+      schedule(function (done) {
+        document.addEventListener(
+          "readystatechange",
+          function () {
+            test("td:nth-child(4)>section", done);
+          },
+          { once: true },
+        );
+      });
 
       // DOMContentLoaded
-      scheduleTest();
-      document.addEventListener(
-        "DOMContentLoaded",
-        function () {
-          test("td:nth-child(5)>section", handleReport);
-        },
-        { once: true },
-      );
+      schedule(function (done) {
+        document.addEventListener(
+          "DOMContentLoaded",
+          function () {
+            test("td:nth-child(5)>section", done);
+          },
+          { once: true },
+        );
+      });
     </script>
     <script type="module" src="./shared.mjs" async></script>
   </body>
