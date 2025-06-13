@@ -20,7 +20,7 @@ export function reflectDisplayedHostnames() {
       return;
     }
     for (const element of document.querySelectorAll("code")) {
-      if (element.textContent.startsWith("localhost")) {
+      if (!element.textContent.startsWith("localhost")) {
         continue;
       }
       element.textContent = element.textContent.replace(
