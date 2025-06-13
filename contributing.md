@@ -7,6 +7,8 @@ This document helps you to start develping `chkfilt` project.
 This project is assuming you to use [nvm](https://nvm.sh/) and [pnpm](https://pnpm.io/).
 We don't strictly restrict the runtime version you use but the version specified as below will have priority in case of runtime version incompatibility issues.
 
+The minimal expectation of the runtime version is `20.6` due to the [module customization hook](https://nodejs.org/api/module.html#customization-hooks) method incompatibility.
+
 - Refer to `.nvmrc` file to check the version of Node.JS used.
 - Refer to `.editorconfig` file to check styling requirements.
 

@@ -29,6 +29,13 @@ export function createTestingServer() {
       }
       return;
     }
+    if (req.url.endsWith(".mjs")) {
+      res.setHeader("content-type", "application/javascript");
+    } else if (req.url.endsWith(".css")) {
+      res.setHeader("content-type", "text/css");
+    } else if (req.url.endsWith(".html")) {
+      res.setHeader("content-type", "text/html");
+    }
     res.writeHead(200);
     res.end(errorOrFile);
   });

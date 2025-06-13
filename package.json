@@ -5,6 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "www": "node --import=tsimp/import ./scripts/www.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint",
     "style": "prettier .",
@@ -22,6 +23,7 @@
     "eslint-config-prettier": "^10.1.5",
     "globals": "^16.2.0",
     "prettier": "^3.5.3",
+    "tsimp": "^2.0.12",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.34.0"
   }
