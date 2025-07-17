@@ -82,7 +82,7 @@ export const scenarios = [
       "+readystatechange": true,
       "+domcontentloaded": true,
     },
-    "example.com##+js(aopw, __chkfilt__custom)": {
+    "example.com##+js(aopw, __checkadb__custom)": {
       "+head": true,
       "+immediate": true,
       "+readystatechange": true,
@@ -100,13 +100,13 @@ export const scenarios = [
       "+readystatechange": true,
       "+domcontentloaded": true,
     },
-    "example.com##+js(json-prune, __chkfilt__custom)": {
+    "example.com##+js(json-prune, __checkadb__custom)": {
       "+head": true,
       "+immediate": true,
       "+readystatechange": true,
       "+domcontentloaded": true,
     },
-    "example.com##+js(set, chkfilt, true)": {
+    "example.com##+js(set, checkadb, true)": {
       "+head": true,
       "+immediate": true,
       "+readystatechange": true,

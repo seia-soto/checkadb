@@ -1,5 +1,5 @@
 {
-  "name": "chkfilt",
+  "name": "checkadb",
   "version": "1.0.0",
   "description": "Half-automated ad-blocking capability end-to-end testing framework.",
   "main": "./dist/index.js",

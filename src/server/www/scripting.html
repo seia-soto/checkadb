@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>chkfilt - scripting</title>
+    <title>checkadb - scripting</title>
     <link rel="stylesheet" href="./style.css" />
 
     <script>
@@ -17,8 +17,8 @@
 
         async function publish() {
           const utils = await import("./utils.mjs");
-          window.__chkfilt__results = utils.collectTestResults();
-          utils.printResults(window.__chkfilt__results);
+          window.__checkadb__results = utils.collectTestResults();
+          utils.printResults(window.__checkadb__results);
         }
 
         function report() {
@@ -86,7 +86,7 @@
         // scripting-aopw
         report["scripting-aopw"] = false;
         try {
-          window.__chkfilt__custom = 1;
+          window.__checkadb__custom = 1;
         } catch (e) {
           report["scripting-aopw"] = true;
         }
@@ -113,11 +113,11 @@
 
         // scripting-json-prune
         report["scripting-json-prune"] =
-          typeof JSON.parse(`{"__chkfilt__custom":1}`).__chkfilt__custom ===
+          typeof JSON.parse(`{"__checkadb__custom":1}`).__checkadb__custom ===
           "undefined";
 
         // scripting-set
-        report["scripting-set"] = typeof window.chkfilt !== "undefined";
+        report["scripting-set"] = typeof window.checkadb !== "undefined";
 
         // scripting-nostif0
         l++;
@@ -183,7 +183,7 @@
         <td><section fail></section></td>
       </tr>
       <tr id="scripting-aopw">
-        <td><code>example.com##+js(aopw, __chkfilt__custom)</code></td>
+        <td><code>example.com##+js(aopw, __checkadb__custom)</code></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
@@ -204,14 +204,14 @@
         <td><section fail></section></td>
       </tr>
       <tr id="scripting-json-prune">
-        <td><code>example.com##+js(json-prune, __chkfilt__custom)</code></td>
+        <td><code>example.com##+js(json-prune, __checkadb__custom)</code></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
       </tr>
       <tr id="scripting-set">
-        <td><code>example.com##+js(set, chkfilt, true)</code></td>
+        <td><code>example.com##+js(set, checkadb, true)</code></td>
         <td><section fail></section></td>
         <td><section fail></section></td>
         <td><section fail></section></td>

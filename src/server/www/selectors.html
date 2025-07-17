@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>chkfilt - CSS selectors</title>
+    <title>checkadb - CSS selectors</title>
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
@@ -145,8 +145,8 @@
 
         async function publish() {
           const utils = await import("./utils.mjs");
-          window.__chkfilt__results = utils.collectTestResults();
-          utils.printResults(window.__chkfilt__results);
+          window.__checkadb__results = utils.collectTestResults();
+          utils.printResults(window.__checkadb__results);
         }
 
         function done() {

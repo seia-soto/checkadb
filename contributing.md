@@ -1,6 +1,6 @@
-# Contributing to chkfilt
+# Contributing to checkadb
 
-This document helps you to start develping `chkfilt` project.
+This document helps you to start develping `checkadb` project.
 
 ## Development setup
 
