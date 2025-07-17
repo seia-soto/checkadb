@@ -11,24 +11,18 @@
         let reported = 0;
 
         /**
-         * @type {Array<{ resultSelector: string; results: Record<string, boolean>; }>}
+         * @type {Array<{ name: string; selector: string; results: Record<string, boolean>; }>}
          **/
         const reports = [];
 
-        async function publish() {
-          const utils = await import("./utils.mjs");
-          window.__checkadb__results = utils.collectTestResults();
-          utils.printResults(window.__checkadb__results);
-        }
-
         function report() {
           while (reports.length > reported) {
-            const { resultSelector, results } = reports[reported++];
+            const { selector, results } = reports[reported++];
             for (const [key, isPass] of Object.entries(results)) {
               if (isPass) {
                 const element = document
                   .querySelector(`#${key}`)
-                  .querySelector(resultSelector);
+                  .querySelector(selector);
                 element.removeAttribute("fail");
                 element.setAttribute("pass", "");
               }
@@ -36,13 +30,24 @@
           }
 
           if (expected === reported) {
-            void publish();
+            if (typeof window.__checkadb__callback !== "undefined") {
+              window.__checkadb__callback(reports);
+            }
+            Object.defineProperty(window, "__checkadb__callback", {
+              set(callback) {
+                callback(reports);
+                return true;
+              },
+              get() {
+                return undefined;
+              },
+            });
           }
         }
 
-        function done(resultSelector, results) {
+        function done(name, selector, results) {
           if (
-            reports.push({ resultSelector, results }) &&
+            reports.push({ name, selector, results }) &&
             document.readyState !== "loading"
           ) {
             report();
@@ -61,9 +66,9 @@
       const schedule = createReportHandler();
 
       /**
-       * @type {function test(resultSelector: string, callback: (report: Record<string, boolean>): void): void}
+       * @type {function test(scope: string, callback: (report: Record<string, boolean>): void): void}
        **/
-      function test(resultSelector, callback) {
+      function test(name, scope, callback) {
         const report = {};
 
         // Iteration marker to avoid using async-await
@@ -71,7 +76,7 @@
         let l = 0;
         function done() {
           if (++i === l) {
-            callback(resultSelector, report);
+            callback(name, scope, report);
           }
         }
 
@@ -156,9 +161,8 @@
         }, 55);
       }
 
-      // head
       schedule(function (done) {
-        test("td:nth-child(2)>section", done);
+        test("head", "td:nth-child(2)>section", done);
       });
     </script>
   </head>
@@ -241,28 +245,25 @@
     </table>
 
     <script>
-      // immediate
       schedule(function (done) {
-        test("td:nth-child(3)>section", done);
+        test("immediate", "td:nth-child(3)>section", done);
       });
 
-      // readystatechange
       schedule(function (done) {
         document.addEventListener(
           "readystatechange",
           function () {
-            test("td:nth-child(4)>section", done);
+            test("readystatechange", "td:nth-child(4)>section", done);
           },
           { once: true },
         );
       });
 
-      // DOMContentLoaded
       schedule(function (done) {
         document.addEventListener(
           "DOMContentLoaded",
           function () {
-            test("td:nth-child(5)>section", done);
+            test("DOMContentLoaded", "td:nth-child(5)>section", done);
           },
           { once: true },
         );

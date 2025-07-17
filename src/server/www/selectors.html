@@ -140,18 +140,23 @@
 
     <script>
       function createScheduler() {
+        const reports = [];
         let expected = 0;
-        let reported = 0;
 
-        async function publish() {
-          const utils = await import("./utils.mjs");
-          window.__checkadb__results = utils.collectTestResults();
-          utils.printResults(window.__checkadb__results);
-        }
-
-        function done() {
-          if (expected === ++reported) {
-            void publish();
+        function done(name, results) {
+          if (reports.push({ name, results }) === expected) {
+            if (typeof window.__checkadb__callback !== "undefined") {
+              window.__checkadb__callback(reports);
+            }
+            Object.defineProperty(window, "__checkadb__callback", {
+              set(callback) {
+                callback(reports);
+                return true;
+              },
+              get() {
+                return undefined;
+              },
+            });
           }
         }
 
@@ -165,7 +170,8 @@
         return schedule;
       }
 
-      function testAndReport(resultSelector) {
+      function test(name, scope, callback) {
+        const results = {};
         const filterElements = document.querySelectorAll("code");
         for (const filterElement of filterElements) {
           const tableRowElement = filterElement.parentElement.parentElement;
@@ -176,11 +182,13 @@
           const targetRect = targetElement.getBoundingClientRect();
           const isPass = targetRect.height === 0 && targetRect.width === 0;
           if (isPass) {
-            const resultElement = tableRowElement.querySelector(resultSelector);
+            const resultElement = tableRowElement.querySelector(scope);
             resultElement.removeAttribute("fail");
             resultElement.setAttribute("pass", "");
           }
+          results[filterElement.textContent] = isPass;
         }
+        callback(name, results);
       }
 
       const schedule = createScheduler();
@@ -189,25 +197,21 @@
         "readystatechange",
         function () {
           schedule(function (done) {
-            testAndReport("td:nth-child(2)>section");
-            done();
+            test("immediate", "td:nth-child(2)>section", done);
           });
           schedule(function (done) {
             setTimeout(function () {
-              testAndReport("td:nth-child(3)>section");
-              done();
+              test("50ms", "td:nth-child(3)>section", done);
             }, 50);
           });
           schedule(function (done) {
             setTimeout(function () {
-              testAndReport("td:nth-child(4)>section");
-              done();
+              test("100ms", "td:nth-child(4)>section", done);
             }, 100);
           });
           schedule(function (done) {
             setTimeout(function () {
-              testAndReport("td:nth-child(5)>section");
-              done();
+              test("200ms", "td:nth-child(5)>section", done);
             }, 200);
           });
 
