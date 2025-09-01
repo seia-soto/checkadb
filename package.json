@@ -1,5 +1,5 @@
 {
-  "name": "checkadb",
+  "name": "@seia-soto/checkadb",
   "version": "1.0.0",
   "description": "Half-automated ad-blocking capability end-to-end testing framework.",
   "main": "./dist/index.js",
@@ -26,10 +26,9 @@
     }
   },
   "scripts": {
-    "build": "tsc -p ./tsconfig.build.json",
+    "build": "tsc -p ./tsconfig.build.json && cp -r ./src/server/www ./dist/server",
     "www": "node --import=tsimp/import ./scripts/www.ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint",
+    "lint": "eslint .",
     "style": "prettier .",
     "check": "pnpm lint && pnpm style",
     "fix": "pnpm lint --fix && pnpm style --write"
@@ -39,14 +38,14 @@
   "license": "MIT",
   "packageManager": "pnpm@10.11.0",
   "devDependencies": {
-    "@eslint/js": "^9.28.0",
-    "@types/node": "^24.0.0",
-    "eslint": "^9.28.0",
-    "eslint-config-prettier": "^10.1.5",
-    "globals": "^16.2.0",
-    "prettier": "^3.5.3",
+    "@eslint/js": "^9.34.0",
+    "@types/node": "^24.3.0",
+    "eslint": "^9.34.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^16.3.0",
+    "prettier": "^3.6.2",
     "tsimp": "^2.0.12",
-    "typescript": "^5.8.3",
-    "typescript-eslint": "^8.34.0"
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.41.0"
   }
 }

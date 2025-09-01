@@ -1,0 +1,14 @@
+/.nvmrc
+/.editorconfig
+/.npmignore
+/.nvmrc
+/.prettierignore
+/eslint.config.js
+/pnpm-lock.yaml
+/tsconfig.build.json
+/tsconfig.json
+/.github/
+/.vscode/
+/node_modules/
+/scripts/
+/src/
