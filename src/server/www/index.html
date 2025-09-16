@@ -246,12 +246,12 @@
           },
           { once: true },
         );
-        script.setAttribute("src", "/gen/modscript.js");
+        script.setAttribute("src", "./gen/modscript.js");
         document.head.appendChild(script);
 
         // xhr
         l++;
-        fetch("/gen/modxhr.js")
+        fetch("./gen/modxhr.js")
           .then(function () {
             results["modxhr"] = false;
             done();
