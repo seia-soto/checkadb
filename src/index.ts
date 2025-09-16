@@ -33,7 +33,13 @@ export type ScriptingReport = {
   >;
 };
 
-export type Report = StylingReport | ScriptingReport;
+export type NetworkingReport = {
+  type: "networking";
+  phase: "lazy";
+  results: Record<"modscript" | "modxhr", boolean>;
+};
+
+export type Report = StylingReport | ScriptingReport | NetworkingReport;
 
 export const filters: [string, string][] = [
   // styling
@@ -59,4 +65,7 @@ export const filters: [string, string][] = [
   ["nostif0", "localhost##+js(nostif, , 0)"],
   ["nostif50", "localhost##+js(nostif, , 50)"],
   ["nosiif50", "localhost##+js(nosiif, , 50)"],
+  // networking
+  ["modscript", "/gen/modscript.js^$script"],
+  ["modxhr", "/gen/modxhr.js^$xhr"],
 ];
