@@ -12,12 +12,6 @@
         "default": "./dist/index.js"
       }
     },
-    "./scenario": {
-      "import": {
-        "types": "./dist/scenario/index.d.ts",
-        "default": "./dist/scenario/index.js"
-      }
-    },
     "./server": {
       "import": {
         "types": "./dist/server/index.d.ts",

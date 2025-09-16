@@ -212,6 +212,56 @@
         }, 55);
       }
 
+      /**
+       * @type {(callback: (results: Record<string, boolean>) => void) => void}
+       **/
+      function assertNetworking(callback) {
+        const results = {};
+
+        // Iteration marker to avoid using async-await
+        let i = 0;
+        let l = 0;
+        function done() {
+          if (++i === l) {
+            callback(results);
+          }
+        }
+
+        // script
+        l++;
+        const script = document.createElement("script");
+        script.addEventListener(
+          "error",
+          function () {
+            results["modscript"] = true;
+            done();
+          },
+          { once: true },
+        );
+        script.addEventListener(
+          "load",
+          function () {
+            results["modscript"] = false;
+            done();
+          },
+          { once: true },
+        );
+        script.setAttribute("src", "/gen/modscript.js");
+        document.head.appendChild(script);
+
+        // xhr
+        l++;
+        fetch("/gen/modxhr.js")
+          .then(function () {
+            results["modxhr"] = false;
+            done();
+          })
+          .catch(function () {
+            results["modxhr"] = true;
+            done();
+          });
+      }
+
       const suite = createSuite();
       suite.test("scripting", "head", function (done) {
         assertScripting(done);
@@ -456,6 +506,22 @@
       </tr>
     </table>
 
+    <h2 id="networking-report">networking</h2>
+    <table>
+      <tr>
+        <th>filter</th>
+        <th>+lazy</th>
+      </tr>
+      <tr id="modscript">
+        <td><code>/gen/modscript.js^$script</code></td>
+        <td><section fail></section></td>
+      </tr>
+      <tr id="modxhr">
+        <td><code>/gen/modxhr.js^$xhr</code></td>
+        <td><section fail></section></td>
+      </tr>
+    </table>
+
     <script>
       suite.test("scripting", "body", function (done) {
         assertScripting(done);
@@ -506,6 +572,11 @@
         setTimeout(function () {
           assertStyling(done);
         }, 1000);
+      });
+      suite.test("networking", "lazy", function (done) {
+        setTimeout(function () {
+          assertNetworking(done);
+        }, 200);
       });
 
       document.addEventListener(

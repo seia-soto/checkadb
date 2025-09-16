@@ -16,7 +16,12 @@ export function createTestingServer() {
         return error;
       });
     if (errorOrFile instanceof Error) {
-      if (errorOrFile.code === "ENOENT") {
+      if (req.url.startsWith("/gen/")) {
+        if (req.url.includes(".js")) {
+          res.writeHead(200, { "content-type": "application/javascript" });
+          res.end("void (function () {})();");
+        }
+      } else if (errorOrFile.code === "ENOENT") {
         res.writeHead(404, { "content-type": "text/plain" });
         res.end("not found");
       } else if (errorOrFile.code === "EACCESS") {
