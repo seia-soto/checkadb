@@ -260,6 +260,37 @@
             results["modxhr"] = true;
             done();
           });
+
+        for (const [id, url, body] of [
+          ["redirnoopjs", "./gen/redirnoop.js", ";"],
+          ["rediradsbygoogle", "./gen/rediradsbygoogle.js", "google"],
+          ["redirfallback", "./gen/redirfallback.js", ""]
+        ]) {
+          l++;
+          fetch(url, {
+            redirect: "error"
+          })
+            .then(function () {
+              // If the redirect didn't happen, it means it's static file
+              results[id] = false;
+              done();
+            })
+            .catch(function () {
+              fetch(url)
+                .then(function (res) {
+                  return res.text();
+                })
+                .then(function (text) {
+                  // Check for the actual payload
+                  results[id] = text.includes(body);
+                  done();
+                })
+                .catch(function () {
+                  results[id] = false;
+                  done();
+                });
+            });
+        }
       }
 
       const suite = createSuite();
@@ -518,6 +549,18 @@
       </tr>
       <tr id="modxhr">
         <td><code>/gen/modxhr.js^$xhr</code></td>
+        <td><section fail></section></td>
+      </tr>
+      <tr id="redirnoopjs">
+        <td><code>/gen/redirnoop.js^$redirect=noopjs</code></td>
+        <td><section fail></section></td>
+      </tr>
+      <tr id="rediradsbygoogle">
+        <td><code>/gen/rediradsbygoogle.js^$redirect=googlesyndication_adsbygoogle.js</code></td>
+        <td><section fail></section></td>
+      </tr>
+      <tr id="redirfallback">
+        <td><code>/gen/redirfallback.js^$redirect=something_does_not_exist.js</code></td>
         <td><section fail></section></td>
       </tr>
     </table>
