@@ -20,6 +20,7 @@ export type ScriptingReport = {
   type: "styling";
   phase: "head" | "body" | "readystatechange" | "DOMContentLoaded" | "1000ms";
   results: Record<
+    | "globals-safeself"
     | "aopr"
     | "aopw"
     | "aeld"
@@ -36,7 +37,14 @@ export type ScriptingReport = {
 export type NetworkingReport = {
   type: "networking";
   phase: "lazy";
-  results: Record<"modscript" | "modxhr", boolean>;
+  results: Record<
+    | "modscript"
+    | "modxhr"
+    | "redirnoopjs"
+    | "rediradsbygoogle"
+    | "redirfallback",
+    boolean
+  >;
 };
 
 export type Report = StylingReport | ScriptingReport | NetworkingReport;
@@ -56,6 +64,7 @@ export const filters: [string, string][] = [
   ["selector-lazy", 'localhost##[lazy-target="100ms"]'],
   ["selector-adjunct", 'localhost##[adjunct-target="100ms"]'],
   // scripting
+  ["globals-safeself", "localhost##+js(json-prune, globals-safeself)"],
   ["aopr", "localhost##+js(aopr, encodeURIComponent)"],
   ["aopw", "localhost##+js(aopw, __checkadb__custom)"],
   ["aeld", "localhost##+js(aeld, click)"],
@@ -68,4 +77,13 @@ export const filters: [string, string][] = [
   // networking
   ["modscript", "/gen/modscript.js^$script"],
   ["modxhr", "/gen/modxhr.js^$xhr"],
+  ["redirnoopjs", "/gen/redirnoop.js^$redirect=noopjs"],
+  [
+    "rediradsbygoogle",
+    "/gen/rediradsbygoogle.js^$redirect=googlesyndication_adsbygoogle.js",
+  ],
+  [
+    "redirfallback",
+    "/gen/redirfallback.js^$redirect=something_does_not_exist.js",
+  ],
 ];

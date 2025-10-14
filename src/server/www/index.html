@@ -142,7 +142,9 @@
             return false;
           },
         });
-        results["globals-safeself"] = JSON.parse('{"globals-safeself":1}')['globals-safeself'] === undefined;
+        results["globals-safeself"] =
+          JSON.parse('{"globals-safeself":1}')["globals-safeself"] ===
+          undefined;
         Object.hasOwn = ObjectHasOwn;
 
         // aopr
@@ -278,11 +280,11 @@
         for (const [id, url, body] of [
           ["redirnoopjs", "./gen/redirnoop.js", ";"],
           ["rediradsbygoogle", "./gen/rediradsbygoogle.js", "google"],
-          ["redirfallback", "./gen/redirfallback.js", ""]
+          ["redirfallback", "./gen/redirfallback.js", ""],
         ]) {
           l++;
           fetch(url, {
-            redirect: "error"
+            redirect: "error",
           })
             .then(function () {
               // If the redirect didn't happen, it means it's static file
@@ -352,7 +354,8 @@
   <body>
     <h1><a href="https://github.com/seia-soto/checkadb">checkadb</a></h1>
     <p>
-      <code>checkadb</code> is a half-automated ad-blocking capability end-to-end testing framework.<br />
+      <code>checkadb</code> is a half-automated ad-blocking capability
+      end-to-end testing framework.<br />
       This framework helps ad-blockers to test their functionality with an ease.
     </p>
 
@@ -582,11 +585,19 @@
         <td><section fail></section></td>
       </tr>
       <tr id="rediradsbygoogle">
-        <td><code>/gen/rediradsbygoogle.js^$redirect=googlesyndication_adsbygoogle.js</code></td>
+        <td>
+          <code
+            >/gen/rediradsbygoogle.js^$redirect=googlesyndication_adsbygoogle.js</code
+          >
+        </td>
         <td><section fail></section></td>
       </tr>
       <tr id="redirfallback">
-        <td><code>/gen/redirfallback.js^$redirect=something_does_not_exist.js</code></td>
+        <td>
+          <code
+            >/gen/redirfallback.js^$redirect=something_does_not_exist.js</code
+          >
+        </td>
         <td><section fail></section></td>
       </tr>
     </table>
