@@ -131,6 +131,20 @@
           }
         }
 
+        // scriptletGlobals.safeSelf /w json-prune
+        results["globals-safeself"] = false;
+        // Inject malicious proxy function to `Object.hasOwn` to distrub checking property existence
+        // refs https://github.com/gorhill/uBlock/blob/ede6b17060210e983aedafc6486859e77be51a26/src/js/resources/safe-self.js#L49
+        // refs https://github.com/gorhill/uBlock/blob/ede6b17060210e983aedafc6486859e77be51a26/src/js/resources/object-prune.js#L52
+        const ObjectHasOwn = Object.hasOwn;
+        Object.hasOwn = new Proxy(Object.hasOwn, {
+          apply(target, thisArg, argArray) {
+            return false;
+          },
+        });
+        results["globals-safeself"] = JSON.parse('{"globals-safeself":1}').a === undefined;
+        Object.hasOwn = ObjectHasOwn;
+
         // aopr
         results["aopr"] = false;
         try {
@@ -466,6 +480,14 @@
         <th>+readystatechange</th>
         <th>+DOMContentLoaded</th>
         <th>+1000ms</th>
+      </tr>
+      <tr id="globals-safeself">
+        <td><code>localhost##+js(json-prune, globals-safeself)</code></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
+        <td><section fail></section></td>
       </tr>
       <tr id="aopr">
         <td><code>localhost##+js(aopr, encodeURIComponent)</code></td>
