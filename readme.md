@@ -23,6 +23,9 @@ You can use any domain without HSTS, for example: `self`.
 127.0.0.1 self
 ```
 
+Otherwise, we recommend running test without any community filter lists.
+We provide our own filters to validate the ad-blocker capability.
+
 ### Programmable
 
 We also providea a programmable way to support your own testing setup.
